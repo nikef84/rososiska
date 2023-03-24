@@ -1,6 +1,7 @@
 <launch>
     <arg name="new_topic_name" default="new_chatter" />
 
+    <include file="$(find otecz_pkg)/launch/another_one.launch" pass_all_args="true"/>
     <node name="listener" pkg="rospy_tutorials" type="listener.py" output="screen">
         <remap from="chatter" to="$(arg new_topic_name)"/>
     </node>
