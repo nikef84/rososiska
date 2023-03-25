@@ -1,21 +1,16 @@
 #!/usr/bin/env python3
 import rospy
-from std_msgs.msg import Int32
+from std_msgs.msg import Int32MultiArray
 
 rospy.init_node('polynomical_node')
-pub = rospy.Publisher('toxic', Int32, queue_size=10)
-sub = rospy.Subscriber('toxic', Int32, queue_size=10)
-rate = rospy.Rate(1)
+pub = rospy.Publisher('to_sum', Int32MultiArray, queue_size=10)
 
-def start_talker():
-	msg = Int32()
-	while not rospy.is_shutdown():
-		msg.data = 
-		pub.publish(msg)
-		rate.sleep()
-		i += 2
+def callback(msg):
+	rospy.loginfo('ebashu')
+	for i in range(len(msg.data), 0, -1):
+		msg.data[i] = msg.data[i]^(i)
+	pub.publish(msg)
 
-try:
-    start_talker()
-except (rospy.ROSInterruptException, KeyboardInterrupt):
-    rospy.logerr('Exception catched')
+
+rospy.Subscriber('to_poly', Int32MultiArray, callback, queue_size=10)
+rospy.spin()

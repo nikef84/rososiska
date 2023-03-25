@@ -1,23 +1,15 @@
 #!/usr/bin/env python3
 import rospy
-from std_msgs.msg import String
+from std_msgs.msg import Int32MultiArray, Int32
 
-rospy.init_node('talker')
-pub = rospy.Publisher('my_topic', String, queue_size=10)
-rate = rospy.Rate(1)
+rospy.init_node('request_node')
+pub = rospy.Publisher('to_poly', Int32MultiArray, queue_size=10)
+msg_in = Int32MultiArray()
+msg_in.data = [2, 4, 5]
+pub.publish(msg_in)
 
-def start_talker():
-    msg = String()
-    while not rospy.is_shutdown():
-        hello_str = "hi =) %s" % rospy.get_time()
-        rospy.loginfo(hello_str)
+def callback(msg_out):
+	rospy.loginfo(f'Sum is: {msg_out.data}')
 
-        msg.data = hello_str
-        pub.publish(msg)
-
-        rate.sleep()
-
-try:
-    start_talker()
-except (rospy.ROSInterruptException, KeyboardInterrupt):
-    rospy.logerr('Exception catched')
+rospy.Subscriber('to_request', Int32, callback, queue_size=10)
+rospy.spin()
