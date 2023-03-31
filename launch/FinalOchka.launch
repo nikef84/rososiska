@@ -1,0 +1,4 @@
+<launch>
+    <node name="sum_node" pkg="otecz_pkg" type="summing.py" output="screen"/>
+    <node name="polynomical_node" pkg="otecz_pkg" type="polynomical.py" output="screen"/>
+</launch>
